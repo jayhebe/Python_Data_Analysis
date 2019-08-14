@@ -74,29 +74,29 @@ def generate_wordcloud(image_path, text, target_file_path):
 
 
 if __name__ == '__main__':
-    # page_cookies = get_cookies("cookies.txt")
-    # # print(page_cookies)
-    # base_url = "https://movie.douban.com/subject/26794435/comments"
-    # first_url = "https://movie.douban.com/subject/26794435/comments?start=0&limit=20&sort=new_score&status=P"
-    # header = {
-    #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
-    #     AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
-    #     'Connection': 'keep-alive'
-    # }
-    #
-    # print("Processing: ", first_url)
-    # html_code_nezha = requests.get(first_url, cookies=page_cookies, headers=header).content
-    # page_comments_nezha, page_next_nezha = get_page_info(html_code_nezha)
-    #
-    # while page_next_nezha:
-    #     with open("comments_nezha.txt", 'a', encoding='utf-8') as f_nezha:
-    #         for page_comment in page_comments_nezha:
-    #             f_nezha.write(filter_text(page_comment.get_text()))
-    #
-    #     new_url = base_url + page_next_nezha
-    #     print("Processing: ", new_url)
-    #     html_code_nezha = requests.get(new_url, cookies=page_cookies, headers=header).content
-    #     page_comments_nezha, page_next_nezha = get_page_info(html_code_nezha)
+    page_cookies = get_cookies("cookies.txt")
+    # print(page_cookies)
+    base_url = "https://movie.douban.com/subject/26794435/comments"
+    first_url = "https://movie.douban.com/subject/26794435/comments?start=0&limit=20&sort=new_score&status=P"
+    header = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
+        AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
+        'Connection': 'keep-alive'
+    }
+
+    print("Processing: ", first_url)
+    html_code_nezha = requests.get(first_url, cookies=page_cookies, headers=header).content
+    page_comments_nezha, page_next_nezha = get_page_info(html_code_nezha)
+
+    while page_next_nezha:
+        with open("comments_nezha.txt", 'a', encoding='utf-8') as f_nezha:
+            for page_comment in page_comments_nezha:
+                f_nezha.write(filter_text(page_comment.get_text()))
+
+        new_url = base_url + page_next_nezha
+        print("Processing: ", new_url)
+        html_code_nezha = requests.get(new_url, cookies=page_cookies, headers=header).content
+        page_comments_nezha, page_next_nezha = get_page_info(html_code_nezha)
 
     with open("comments_nezha.txt", "rb") as f_result:
         all_comments = f_result.read()
