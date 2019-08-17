@@ -1,4 +1,4 @@
-# encoding=utf-8
+# coding=utf-8
 
 from bs4 import BeautifulSoup
 from imageio import imread
@@ -100,11 +100,11 @@ def generate_wordcloud(bg_image_path, text, target_file_path):
 
 
 if __name__ == '__main__':
-    douban_movie_id = "26931786"
+    douban_movie_id = "25827935"
     douban_page_cookies = get_cookies("cookies.txt")
-    target_comments_file = "comments/comments_spiderman.txt"
-    target_wordcloud_file = "wc_images/word_cloud_spiderman.jpg"
-    word_cloud_bg_image = "bg_images/spiderman.jpg"
+    target_comments_file = "comments/comments_qiyueyuansheng.txt"
+    target_wordcloud_file = "wc_images/word_cloud_qiyueyuansheng.jpg"
+    word_cloud_bg_image = "bg_images/qiyueyuansheng.jpg"
 
     write_comments_to_file(douban_movie_id, douban_page_cookies, target_comments_file)
 
