@@ -23,10 +23,10 @@ def stats_text_cn(cn_text):
     if not isinstance(cn_text, str):
         raise ValueError("The method only accepts type str.")
 
-    # cn_special_words = "！“”#$%&‘’（）*+，-。/：；、……<=>？@[]「」《》^_`{|}~\n"
-    # for cn_special_word in cn_special_words:
-    #     if cn_special_word in cn_text:
-    #         cn_text = cn_text.replace(cn_special_word, "")
+    cn_special_words = "！“”#$%&‘’（）*+，-。/：；、……<=>？@[]「」《》^_`{|}~\n"
+    for cn_special_word in cn_special_words:
+        if cn_special_word in cn_text:
+            cn_text = cn_text.replace(cn_special_word, "")
 
     cn_text = jieba.cut(cn_text, cut_all=False)
 
