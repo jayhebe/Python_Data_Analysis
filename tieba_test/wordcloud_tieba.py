@@ -12,12 +12,12 @@ import sys
 
 def get_page_info(html_code):
     page_bs = BeautifulSoup(html_code, "html.parser")
-    page_comments = page_bs.select("span[class='short']")
-    page_next = page_bs.select("a[class='next']")
-    if len(page_next) != 0:
-        page_next = page_next[0].get("href")
+    page_comments = page_bs.select("div[style='display:;']")
+    # page_next = page_bs.select("a[class='next']")
+    # if len(page_next) != 0:
+    #     page_next = page_next[0].get("href")
 
-    return page_comments, page_next
+    return page_comments
 
 
 def filter_text(comment):
@@ -50,28 +50,24 @@ def get_cutted_comments(comments):
     return jieba.cut(comments, cut_all=False)
 
 
-def write_comments_to_file(movie_id, page_cookies, target_file_path):
-    base_url = "https://movie.douban.com/subject/" + movie_id + "/comments"
-    first_url = base_url + "?start=0&limit=20&sort=new_score&status=P"
+def write_comments_to_file(page_cookies, target_file_path):
+    base_url = "http://tieba.baidu.com/p/5343512726?pn="
     header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
             AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
         'Connection': 'keep-alive'
     }
 
-    print("Processing: ", first_url)
-    html_code = requests.get(first_url, cookies=page_cookies, headers=header).content
-    page_comments, page_next = get_page_info(html_code)
+    for page in range(1, 39):
+        new_url = base_url + str(page)
+        print("Processing: ", new_url)
+        html_code = requests.get(new_url, cookies=page_cookies, headers=header).content
+        page_comments = get_page_info(html_code)
+        print(page_comments)
 
-    while page_next:
         with open(target_file_path, 'a', encoding='utf-8') as f_comments:
             for page_comment in page_comments:
                 f_comments.writelines(filter_text(page_comment.get_text()))
-
-        new_url = base_url + page_next
-        print("Processing: ", new_url)
-        html_code = requests.get(new_url, cookies=page_cookies, headers=header).content
-        page_comments, page_next = get_page_info(html_code)
 
 
 def generate_wordcloud(bg_image_path, text, target_file_path):
@@ -100,13 +96,12 @@ def generate_wordcloud(bg_image_path, text, target_file_path):
 
 
 if __name__ == '__main__':
-    douban_movie_id = "30446788"
-    douban_page_cookies = get_cookies("cookies.txt")
-    target_comments_file = "comments/comments_lundaonile.txt"
-    target_wordcloud_file = "wc_images/word_cloud_lundaonile.jpeg"
-    word_cloud_bg_image = "bg_images/lundaonile.jpeg"
+    tieba_page_cookies = get_cookies("cookies.txt")
+    target_comments_file = "comments_tieba.txt"
+    target_wordcloud_file = "tieba_wordcloud.png"
+    word_cloud_bg_image = "nezha.png"
 
-    write_comments_to_file(douban_movie_id, douban_page_cookies, target_comments_file)
+    write_comments_to_file(tieba_page_cookies, target_comments_file)
 
     with open(target_comments_file, "rb") as f_result:
         all_comments = f_result.read()
