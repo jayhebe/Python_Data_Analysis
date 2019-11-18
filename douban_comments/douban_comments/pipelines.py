@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import openpyxl
+import os
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -19,5 +20,6 @@ class DoubanCommentsPipeline(object):
         return item
 
     def close_spider(self, spider):
-        self.wb.save(r".\douban_comments.xlsx")
+        file_name = "douban_comments.xlsx"
+        self.wb.save(os.getcwd() + os.path.sep + file_name)
         self.wb.close()
