@@ -4,7 +4,7 @@ from urllib.request import quote
 
 
 def get_movie_download_link(movie_name):
-    search_base_url = "http://s.ygdy8.com/plus/so.php?typeid=1&keyword="
+    search_base_url = "http://s.ygdy8.com/plus/s0.php?typeid=1&keyword="
     encode_movie_name = quote(movie_name.encode("gbk"))
     search_full_url = search_base_url + encode_movie_name
 
